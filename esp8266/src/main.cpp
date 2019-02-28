@@ -122,7 +122,5 @@ void loop()
 		UpdateWifiInfo(info);
 	}
 
-
-
 	prevPage = GetCurrentPage();
 }
