@@ -22,6 +22,12 @@
  * @{ 
  */
 
+/**
+ * Define STD_SUPPORT to enable c++ std templates usage like std::vector
+ * 
+*/
+//#define STD_SUPPORT
+
 /** 
  * Define DEBUG_SERIAL_ENABLE to enable debug serial. 
  * Comment it to disable debug serial. 
@@ -40,7 +46,7 @@
  * NodeMcu/Esp8266 can use harware serial (Serial) but it uses same serial as usb communication and
  * during SW upload NodeMcu RX pin must be disconnected from Nextion
  */
-//#define NEX_SOFTWARE_SERIAL
+#define NEX_SOFTWARE_SERIAL
 #ifndef NEX_SOFTWARE_SERIAL
 // hardware Serial port
 #define nexSerial Serial
