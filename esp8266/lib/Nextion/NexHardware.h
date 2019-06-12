@@ -145,7 +145,7 @@ bool recvCommand(const uint8_t command, uint32_t timeout);
  * @retval false - failed. 
  *
  */
-bool recvRetCommandFinished(uint32_t timeout = 100);
+bool recvRetCommandFinished(uint32_t timeout = 200);
 
 /*
  * Transpared data mode setup successfully 
@@ -156,7 +156,7 @@ bool recvRetCommandFinished(uint32_t timeout = 100);
  * @retval false - failed. 
  *
  */
-bool RecvTransparendDataModeReady(uint32_t timeout = 100);
+bool RecvTransparendDataModeReady(uint32_t timeout = 400);
 
 /*
  * Transpared data mode finished 
@@ -167,7 +167,7 @@ bool RecvTransparendDataModeReady(uint32_t timeout = 100);
  * @retval false - failed. 
  *
  */
-bool RecvTransparendDataModeFinished(uint32_t timeout = 100);
+bool RecvTransparendDataModeFinished(uint32_t timeout = 200);
 
 /**
  * Init Nextion.  
@@ -177,6 +177,18 @@ bool RecvTransparendDataModeFinished(uint32_t timeout = 100);
  * @return true if success, false for failure. 
  */
 bool nexInit(const uint32_t baud=9600);
+
+
+/**
+ * Wait Data receiving.
+ * 
+ * @param dataAmount - Amount of received data to wait
+ * @param timeoutMs - Timeout Milliseconds
+ * @return true . success. 
+ * @retval false - timeout. 
+ *
+ */
+//bool WaitData(uint16_t dataAmount, uint32_t timeoutMs);
 
 /**
  * Listen touch event and calling callbacks attached before.
