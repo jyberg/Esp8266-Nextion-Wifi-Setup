@@ -178,18 +178,6 @@ bool RecvTransparendDataModeFinished(uint32_t timeout = 200);
  */
 bool nexInit(const uint32_t baud=9600);
 
-
-/**
- * Wait Data receiving.
- * 
- * @param dataAmount - Amount of received data to wait
- * @param timeoutMs - Timeout Milliseconds
- * @return true . success. 
- * @retval false - timeout. 
- *
- */
-//bool WaitData(uint16_t dataAmount, uint32_t timeoutMs);
-
 /**
  * Listen touch event and calling callbacks attached before.
  * 

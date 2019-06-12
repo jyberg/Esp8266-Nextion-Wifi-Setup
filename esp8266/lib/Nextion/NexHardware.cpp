@@ -362,39 +362,16 @@ bool nexInit(const uint32_t baud)
         nexSerial.begin(baud);
     }
 
- //   sendCommand("");
     sendCommand("bkcmd=3");
     ret1 = recvRetCommandFinished();
     sendCommand("page 0");
     ret2 = recvRetCommandFinished();
     return ret2;
 }
-/*
-bool WaitData(uint16_t dataAmount, uint32_t timeoutMs)
-{
 
-    bool ret{false};
-    for(uint32_t i{0}; !ret && i<timeoutMs;++i)
-    {
-        if(nexSerial.available()<dataAmount)
-        {
-            delay(1);
-        }
-        else
-        {
-            ret = true;
-        }        
-    }
-    return ret;
-
-}
-*/
 void nexLoop(NexTouch *nex_listen_list[])
 {
     static uint8_t __buffer[10];
-    
-//    uint16_t i;
-//    uint8_t c;  
     
     while (nexSerial.available())
     {
@@ -404,37 +381,19 @@ void nexLoop(NexTouch *nex_listen_list[])
         {
             case NEX_RET_EVENT_TOUCH_HEAD:
             {
-  /*              if(WaitData(6,100))
+                if(6==nexSerial.readBytes(&__buffer[1],6))
                 {
-                    __buffer[0] = c;  
-                    for (i = 1; i < 7; i++)
+                    if (0xFF == __buffer[4] && 0xFF == __buffer[5] && 0xFF == __buffer[6])
                     {
-                        __buffer[i] = nexSerial.read();
+                        NexTouch::iterate(nex_listen_list, __buffer[1], __buffer[2], __buffer[3]);
                     }
-   */               
-                    if(6==nexSerial.readBytes(&__buffer[1],6))
-                    {
-                        if (0xFF == __buffer[4] && 0xFF == __buffer[5] && 0xFF == __buffer[6])
-                        {
-                            NexTouch::iterate(nex_listen_list, __buffer[1], __buffer[2], __buffer[3]);
-                        }
-                    }
-                    
-//                }
+                }
                 break;
             }
             case NEX_RET_CURRENT_PAGE_ID_HEAD:
             {
-  /*              if(WaitData(4,100))
+                if(4==nexSerial.readBytes(&__buffer[1],4))
                 {
-                    __buffer[0] = c;  
-                    for (i = 1; i < 5; i++)
-                    {
-                        __buffer[i] = nexSerial.read();
-                    }
- */
-                    if(4==nexSerial.readBytes(&__buffer[1],4))
-                    {
                     if (0xFF == __buffer[2] && 0xFF == __buffer[3] && 0xFF == __buffer[4])
                     {
                         if(currentPageIdCallback!=nullptr)
@@ -442,56 +401,35 @@ void nexLoop(NexTouch *nex_listen_list[])
                             currentPageIdCallback(__buffer[1]);
                         }
                     }
-                    }
-//                }
+                }
                 break;
             }
             case NEX_RET_EVENT_POSITION_HEAD:
             case NEX_RET_EVENT_SLEEP_POSITION_HEAD:
             {
-/*                if(WaitData(8,100))
-                {
-                    __buffer[0] = c;  
-                    for (i = 1; i < 9; i++)
-                    {
-                        __buffer[i] = nexSerial.read();
-                    }
-                    __buffer[i] = 0x00;
-  */
-                    if(8==nexSerial.readBytes(&__buffer[1],8))
-                    {                  
+                if(8==nexSerial.readBytes(&__buffer[1],8))
+                {                  
                     if (0xFF == __buffer[6] && 0xFF == __buffer[7] && 0xFF == __buffer[8])
                     {
                         if(__buffer[0] == NEX_RET_EVENT_POSITION_HEAD && touchCoordinateCallback!=nullptr)
                         {
-                             
+                                
                             touchCoordinateCallback(((int16_t)__buffer[2] << 8) | (__buffer[1]), ((int16_t)__buffer[4] << 8) | (__buffer[3]),__buffer[5]);
                         }
                         else if(__buffer[0] == NEX_RET_EVENT_SLEEP_POSITION_HEAD && touchCoordinateCallback!=nullptr)
                         {
-                             
+                                
                             touchEventInSleepModeCallback(((int16_t)__buffer[2] << 8) | (__buffer[1]), ((int16_t)__buffer[4] << 8) | (__buffer[3]),__buffer[5]);
                         }
                     }
-                    }
-//                }
+                }
                 break;
             }
             case NEX_RET_AUTOMATIC_SLEEP:
             case NEX_RET_AUTOMATIC_WAKE_UP:
             {
-/*                if(WaitData(3,100))
+                if(3==nexSerial.readBytes(&__buffer[1],3))
                 {
-                    __buffer[0] = c;  
-                    for (i = 1; i < 4; i++)
-                    {
-                        __buffer[i] = nexSerial.read();
-                    }
-                    __buffer[i] = 0x00;
-  */
-                    if(3==nexSerial.readBytes(&__buffer[1],3))
-                    {                  
-
                     if (0xFF == __buffer[1] && 0xFF == __buffer[2] && 0xFF == __buffer[3])
                     {
                         if(__buffer[0]==NEX_RET_AUTOMATIC_SLEEP && automaticSleepCallback!=nullptr)
@@ -503,8 +441,7 @@ void nexLoop(NexTouch *nex_listen_list[])
                             automaticWakeUpCallback();
                         }
                     }
-                    }
-//                }
+                }
                 break;
             }
             case NEX_RET_START_UP:
