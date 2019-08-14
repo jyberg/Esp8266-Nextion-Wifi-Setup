@@ -59,7 +59,7 @@ void setup()
 	}
 	SetHostname();
 	InitializeNextionUi();
-	nextionStartCallback();
+	NextionReadyCallback();
 
 	if(gSettings.wifiOn)
 	{

@@ -3,8 +3,16 @@
 # Enhanced Nextion Library
 
 --------------------------------------------------------------------------------
+Jyrki Berg 8/14/2019 (https://github.com/jyberg)
 
-Jyrki Berg 2/17/2019 (https://github.com/jyberg)
+-Backward compatinility issue:
+	- systemStartUpCallback function pointer name corrected to match Nextion functionality/documentation new name: nextionReadyCallback
+
+- Error code list updated (NexHardware.cpp)
+- nextionStartupCallback function added. Called when when Nextion has started or reset
+
+
+Jyrki Berg 2/17/2019
 Enhanced and corrected Nextion library version for Arduino/Esp8266/NodeMcu, based on original Nextion Arduino library.
 
 - Added support for NodeMcu/esp8266, Software serial, Software serial can be used with arduino also

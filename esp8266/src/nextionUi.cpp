@@ -146,7 +146,7 @@ void InitNextionCallbacks()
 {
 	// functional callbacks
 	currentPageIdCallback = currentPageCallback;
-	systemStartUpCallback = nextionStartCallback;
+	nextionReadyCallback = NextionReadyCallback;
 
 	// object callbacks
 	pHomeSettings.attachPush(bHomeSettingsCallback);
@@ -390,7 +390,7 @@ uint8_t GetCurrentPage()
 {
 	return currentPageId;
 }
-void nextionStartCallback()
+void NextionReadyCallback()
 {
 	delay(50);
 	gTextColour.setValue(gSettings.textColour);

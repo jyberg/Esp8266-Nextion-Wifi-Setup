@@ -38,7 +38,7 @@ void bChangePwdEnterCallback(void *ptr);
 void tHome3TimeCallback(void *ptr);
 
 void currentPageCallback(uint8_t pageId);
-void nextionStartCallback();
+void NextionReadyCallback();
 
 // helper functions
 void ShowSystemSettings();
