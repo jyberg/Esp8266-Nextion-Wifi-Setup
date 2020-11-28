@@ -28,7 +28,6 @@
 
 #include <HardwareSerial.h>
 #include <time.h>
-
 using namespace nextionUi;
 using namespace wifi;
 

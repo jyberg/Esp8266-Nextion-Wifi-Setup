@@ -19,18 +19,24 @@
 #include <Nextion.h>
 #include "wifi.h"
 #include "nextionUi.h"
+#include <SoftwareSerial.h>
 
 using namespace wifi;
 
+
 namespace nextionUi
 {
+SoftwareSerial nextSerial(D2,D1);
+Nextion *NextD1 = Nextion::GetInstance(nextSerial);
+
 uint8_t currentPageId{0};
+
 
 void InitializeNextionUi()
 {
 	DebugPrintLn("Netxtion Init");
 
-	if(nexInit())
+	if(NextD1->nexInit(19200))
 	{
 		 DebugPrintLn("Netxtion OK");
 	}
@@ -50,74 +56,73 @@ enum wifiPageType
 
 
 // page 0 home
-NexPage pHome(0, 0, "home");
+NexPage pHome(NextD1, 0, "home");
 
-NexPicture pHomeSettings(0, 1, "settings");
-NexText tHomeTime(0,3,"time");
+NexPicture pHomeSettings(NextD1, 0, 1, "settings");
+NexText tHomeTime(NextD1, 0,3,"time");
 
 // page 1 home2
-NexPage pHome2(1, 0, "home2");
+NexPage pHome2(NextD1, 1, "home2");
 
-NexPicture pHome2Settings(1, 1, "settings");
+NexPicture pHome2Settings(NextD1, 1, 1, "settings");
 //NexText tHome2Time(0,3,"time"); not needed because time is not global
 
 // page 2 home2 / time
-NexPage pHome3(2, 0, "home3");
+NexPage pHome3(NextD1, 2, "home3");
 
-NexPicture pHome3Settings(2, 1, "settings");
-NexText tHome3Time(2,3,"time");
+NexPicture pHome3Settings(NextD1, 2, 1, "settings");
+NexText tHome3Time(NextD1, 2,3,"time");
 
-NexVariable gTextColour(2,4,"timeColour", &pHome3);
+NexVariable gTextColour(NextD1, 2,4,"timeColour", &pHome3);
 
 
 // page 3 wifiInfo
-NexPage pWifiInfo(3, 0, "wifiInfo");
+NexPage pWifiInfo(NextD1, 3, "wifiInfo");
 
-NexPicture pWifiInfoSettings(3, 1, "settings");
-//NexText tWifiInfoTime(3,3,"time");not needed because time is not global
-NexText tWifiInfoTxt(3,3,"wifiInfoTxt");
+NexPicture pWifiInfoSettings(NextD1, 3, 1, "settings");
+NexText tWifiInfoTxt(NextD1, 3,3,"wifiInfoTxt");
 
 // page 4 wifi
-NexPage pWifi(4,0,"wifi");
+NexPage pWifi(NextD1, 4,"wifi");
 
-NexTouch bWifiEnter(4,37,"enter");
-NexText gSsid(4,39,"ssid", &pWifi);
-NexText gPwd(4,41,"pwd", &pWifi);
-NexVariable gWifiType(4,42,"type", &pWifi);
-NexVariable gApHide(4,44,"hidden", &pWifi);
-NexVariable gApChannel(4,48,"channelNro", &pWifi);
+NexTouch bWifiEnter(NextD1, 4,37,"enter");
+NexText gSsid(NextD1, 4,39,"ssid", &pWifi);
+NexText gPwd(NextD1, 4,41,"pwd", &pWifi);
+NexVariable gWifiType(NextD1, 4,42,"type", &pWifi);
+NexVariable gApHide(NextD1, 4,44,"hidden", &pWifi);
+NexVariable gApChannel(NextD1, 4,48,"channelNro", &pWifi);
 
 //page 5 system password
-NexPage pSysPwd(5, 0, "password");
+NexPage pSysPwd(NextD1, 5, "password");
 
-NexTouch bSysEnter(5, 38, "enter");
-NexText txtSysPwd(5, 40, "inputTxt");
+NexTouch bSysEnter(NextD1, 5, 38, "enter");
+NexText txtSysPwd(NextD1, 5, 40, "inputTxt");
 
 //page 6 settigs
-NexPage pSettings(6, 0, "settings");
+NexPage pSettings(NextD1, 6, "settings");
 
-NexTouch bApOnOff(6,3,"m0");
-NexTouch bWifiOnOff(6,4,"m1");
-NexTouch bTimeZoneHour(6,6,"sHour");
-NexTouch bApEdit(6,11,"apEdit");
-NexTouch bWifiEdit(6,12,"wifiEdit");
+NexTouch bApOnOff(NextD1, 6,3,"m0");
+NexTouch bWifiOnOff(NextD1, 6,4,"m1");
+NexTouch bTimeZoneHour(NextD1, 6,6,"sHour");
+NexTouch bApEdit(NextD1, 6,11,"apEdit");
+NexTouch bWifiEdit(NextD1, 6,12,"wifiEdit");
 
-NexVariable gApOn(6,1,"apOn", &pSettings);
-NexVariable gWifiOn(6,2,"wifiOn", &pSettings);
-NexVariable gZoneHour(6,8,"hour", &pSettings);
-NexText gHostname(6,13,"hostname", &pSettings);
+NexVariable gApOn(NextD1, 6,1,"apOn", &pSettings);
+NexVariable gWifiOn(NextD1, 6,2,"wifiOn", &pSettings);
+NexVariable gZoneHour(NextD1, 6,8,"hour", &pSettings);
+NexText gHostname(NextD1, 6,13,"hostname", &pSettings);
 
 //page 7 hostname
-NexPage pHostname(7, 0, "hostname");
+NexPage pHostname(NextD1, 7, "hostname");
 
-NexTouch bEnterHostname(7,38,"enter");
+NexTouch bEnterHostname(NextD1, 7,38,"enter");
 
 //page 8 systemPwdChange
-NexPage pChangePwd(8,0,"systemPwd");
+NexPage pChangePwd(NextD1, 8,"systemPwd");
 
-NexTouch bChangePwdEnter(8, 37, "enter");
+NexTouch bChangePwdEnter(NextD1, 8, 37, "enter");
 
-NexText gNewPwd(8,39,"pwd1",&pChangePwd);
+NexText gNewPwd(NextD1, 8,39,"pwd1",&pChangePwd);
 
 //  event listener
 NexTouch *nex_listen_list[] = {
@@ -145,8 +150,8 @@ NexTouch *nex_listen_list[] = {
 void InitNextionCallbacks()
 {
 	// functional callbacks
-	currentPageIdCallback = currentPageCallback;
-	nextionReadyCallback = NextionReadyCallback;
+	NextD1->currentPageIdCallback = currentPageCallback;
+	NextD1->nextionReadyCallback = NextionReadyCallback;
 
 	// object callbacks
 	pHomeSettings.attachPush(bHomeSettingsCallback);
@@ -401,7 +406,7 @@ void NextionReadyCallback()
 void HandleNextionEvents()
 {
  	// handle Nextion events
-	nexLoop(nex_listen_list);
+	NextD1->nexLoop(nex_listen_list);
 }
 
 }
